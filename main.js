@@ -4,8 +4,30 @@ const FULL_HEART = '♥'
 
 // Your JavaScript code goes here!
 
+function toggleHeart(event) {
+  const heart = event.target;
+  mimicServerCall()
+    .then(() => {
+      if (heart.innerText === EMPTY_HEART) {
+        heart.innerText = FULL_HEART;
+        heart.classList.add('activated-heart');
+      } else {
+        heart.innerText = EMPTY_HEART;
+        heart.classList.remove('activated-heart');
+      }
+    })
+    .catch((error) => {
+      const modal = document.querySelector('.modal');
+      modal.classList.remove('hidden');
+      setTimeout(() => modal.classList.add('hidden'), 3000);
+    });
+}
 
-
+// Adding event listener to the heart
+document.addEventListener("DOMContentLoaded", () => {
+  const hearts = document.querySelectorAll('.like-glyph');
+  hearts.forEach(heart => heart.addEventListener('click', toggleHeart));
+});
 
 //------------------------------------------------------------------------------
 // Don't change the code below: this function mocks the server response
